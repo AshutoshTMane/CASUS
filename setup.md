@@ -45,7 +45,7 @@ I think a generally good idea is to: Create a branch when you want to start work
    a. Go to the app directory, most likely CASUS/frontend/flutter_app, and type `flutter run`.  
    NOTE: This does NOT start the testing environment. The section to do so is near the bottom.
 
-## FastAPI Setup
+## FastAPI/Python Setup
 
 1. Start python environment (SKIP: Should be done and in GitHub already)  
    a. Create the python environment by typing `python3 -m venv venv` in terminal in the correct directory (most likely backend)  
@@ -57,6 +57,16 @@ I think a generally good idea is to: Create a branch when you want to start work
    a. This isn't crucial for FastAPI, but to connect our frontend Flutter process with the FastAPI app, we will require CORS to handle incoming requests. Install using `pip install fastapi-cors`
 
 4. Run the FastAPI app with Uvicorn using `uvicorn main:app --reload`. This means you're running the app = FastAPI() from main.py.
+
+5. Beyond that, you can run `pip install requirements.txt` to get all the python libraries used.
+
+## PostgreSQL Setup
+
+1. Install PostgreSQL from their website https://www.postgresql.org/download/
+
+2. Use the setup wizard to install their application. I believe you can click through and not need to actually update any of the fields. You can reasonably set your password to anything, but I just called it `password`. I believe it asks for the port as well, but just leave it as 5432.
+
+3. Open pgAdmin, which was installed along with the database system. You can now input your password and start to create databases. I made my first one and called it `casus`.
 
 ## Testing Environment Setup
 
