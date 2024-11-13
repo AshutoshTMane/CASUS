@@ -14,3 +14,10 @@ Base = declarative_base()
 
 # For async databases, consider using `databases` library
 # async_database = databases.Database(DATABASE_URL)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
