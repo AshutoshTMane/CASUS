@@ -1,61 +1,39 @@
-// Importing important packages require to connect
-// Flutter and Dart
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; // Import Flutter's material design package
+import 'screens/login_page.dart'; // Import the login page screen
+import 'screens/home_page.dart'; // Import the home page screen
+import 'screens/profile_page.dart'; // Import the profile page screen
+import 'package:shared_preferences/shared_preferences.dart'; // Import for local storage
 
-// Main Function
+// Main function to start the app
 void main() {
-// Giving command to runApp() to run the app.
-
-/* The purpose of the runApp() function is to attach
-the given widget to the screen. */
-  runApp(const MyApp());
+  runApp(MyApp()); // Runs the MyApp widget as the root of the app
 }
 
-// Widget is used to create UI in flutter framework.
-
-/* StatelessWidget is a widget, which does not maintain
-any state of the widget. */
-
-/* MyApp extends StatelessWidget and overrides its
-build method. */
+// Root widget of the app, responsible for setting up app-wide configurations
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  // Async function to check if the user is logged in
+  Future<bool> checkLoginStatus() async {
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance(); // Access shared preferences
+    return prefs.getBool('isLoggedIn') ??
+        false; // Returns login status, defaults to false if not set
+  }
 
-// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title of the application
-      title: 'Hello World Demo Application',
-      // theme of the widget
+      title: 'CASUS', // Title of the app
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        primarySwatch: Colors.blue, // Set the primary color theme
       ),
-      // Inner UI of the application
-      home: const MyHomePage(title: 'Home page'),
-    );
-  }
-}
-
-/* This class is similar to MyApp instead it
-returns Scaffold Widget */
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      // Sets the content to the
-      // center of the application page
-      body: const Center(
-          // Sets the content of the Application
-          child: Text(
-        'Welcome to CASUS!',
-      )),
+      initialRoute: '/home', // Initial route of the app, opens HomePage
+      routes: {
+        // Define the available routes in the app
+        '/login': (context) => const LoginPage(), // Route to the login page
+        '/home': (context) => const HomePage(), // Route to the home page
+        '/profile': (context) =>
+            const ProfilePage(), // Route to the profile page
+      },
     );
   }
 }
