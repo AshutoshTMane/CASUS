@@ -1,55 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'login_page.dart';
-import 'profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import for shared preferences to check login status
+import 'login_page.dart'; // Import LoginPage for login redirection
+import 'profile_page.dart'; // Import ProfilePage for profile page
 
+// HomePage widget that is Stateful to handle dynamic UI updates based on user actions (e.g., navigation)
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key})
+      : super(
+            key:
+                key); // Constructor with optional key for widget identification
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() =>
+      _MyHomePageState(); // Create the state for this widget
 }
 
 class _MyHomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  bool isLoggedIn = false; // Track login state
+  int _selectedIndex =
+      0; // Track the selected tab index (Home, Search, Profile)
+  bool isLoggedIn = false; // Track whether the user is logged in
 
-  // Pages for each tab
+  // A list of pages to be displayed for each tab (Home, Search, Profile)
   static const List<Widget> _pages = <Widget>[
-    Center(child: Text('Home Page', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Search Page', style: TextStyle(fontSize: 24))),
-    SizedBox.shrink(), // Placeholder for Profile tab
+    Center(
+        child: Text('Home Page',
+            style: TextStyle(fontSize: 24))), // Home page content
+    Center(
+        child: Text('Search Page',
+            style: TextStyle(fontSize: 24))), // Search page content
+    SizedBox
+        .shrink(), // Placeholder for the Profile tab (it's handled dynamically)
   ];
 
-  // Check login state using SharedPreferences
+  // Function to check if the user is logged in by accessing SharedPreferences
   void _checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences
+        .getInstance(); // Get shared preferences instance
     setState(() {
-      isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+      isLoggedIn = prefs.getBool('isLoggedIn') ??
+          false; // Set login state (default to false if no value exists)
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus(); // Check login status on page load
+    _checkLoginStatus(); // Check login status when the page is initialized
   }
 
+  // Function to handle bottom navigation tab item tap
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index; // Update the selected tab index
     });
 
     if (_selectedIndex == 2) {
-      // If Profile tab is tapped
+      // If Profile tab is selected
       if (isLoggedIn) {
-        // If logged in, show ProfilePage
+        // If user is logged in, navigate to ProfilePage
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ProfilePage()),
         );
       } else {
-        // If not logged in, redirect to LoginPage
+        // If user is not logged in, navigate to LoginPage
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -62,18 +76,22 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to CASUS!'),
+        title: const Text('Welcome to CASUS!'), // App bar title
       ),
-      body: _pages[_selectedIndex], // Show the selected page (Home or Search)
+      body: _pages[
+          _selectedIndex], // Display the selected page content based on selected tab
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: 'Home'), // Home tab item
+          BottomNavigationBarItem(
+              icon: Icon(Icons.search), label: 'Search'), // Search tab item
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person), label: 'Profile'), // Profile tab item
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.lightGreen,
-        onTap: _onItemTapped, // Handle tab tap
+        currentIndex: _selectedIndex, // Set the currently selected tab
+        selectedItemColor: Colors.lightGreen, // Color for selected tab
+        onTap: _onItemTapped, // Function to handle tab item taps
       ),
     );
   }
