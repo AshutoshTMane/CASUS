@@ -1,2 +1,2 @@
 # CASUS
-Cultural ant Societal Understanding System
+Cultural and Societal Understanding System
