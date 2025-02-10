@@ -38,16 +38,6 @@ class SignInScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  'flutter_app/loginScreenPic.png', // Ensure this file is in the assets folder
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 16),
               const Text(
                 'Sign in',
                 style: TextStyle(
