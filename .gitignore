@@ -4,13 +4,22 @@ __pycache__/         # Ignore compiled Python files
 *.pyc                # Ignore Python cache files
 .env                 # Ignore environment variables
 
-# ========== Flutter Frontend ==========
-flutter_app/build/   # Ignore Flutter build files
-flutter_app/.dart_tool/
-flutter_app/.packages
-flutter_app/pubspec.lock
-flutter_app/.flutter-plugins
-flutter_app/.flutter-plugins-dependencies
+# ========== Flutter Specific ==========
+.dart_tool/            # Ignore Dart tool-specific files
+.idea/                 # Ignore JetBrains project settings
+.vscode/               # Ignore VS Code settings
+flutter_app/.packages  # Ignore Flutter package files
+flutter_app/.flutter-plugins  # Ignore Flutter plugin-related files
+flutter_app/.flutter-plugins-dependencies  # Ignore Flutter plugin dependencies
+test/                  # Ignore Flutter test folder
+android/              # Ignore Android platform files
+ios/                  # Ignore iOS platform files
+linux/                # Ignore Linux platform files
+macos/                # Ignore macOS platform files
+web/                  # Ignore Web platform files
+windows/              # Ignore Windows platform files
+flutter_app.iml       # Ignore IntelliJ project file
+
 
 # ========== IDE and System Files ==========
 .vscode/             # VS Code settings
