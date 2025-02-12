@@ -10,7 +10,7 @@ if %errorlevel% neq 0 (
 )
 
 :: Ask for project name
-set /p app_name=Enter your Flutter project name: 
+set /p app_name=flutter_app
 
 :: Create the Flutter project
 flutter create %app_name%

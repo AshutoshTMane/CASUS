@@ -1,39 +1,26 @@
 @echo off
 echo Setting up Python virtual environment...
 
-:: Check if Python is installed
-python --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Python is not installed or not in PATH. Please install Python and try again.
-    pause
-    exit /b
+:: Ensure the backend folder exists
+if not exist backend (
+    mkdir backend
 )
 
-:: Create virtual environment if it doesn't exist
-if not exist "venv\" (
-    echo Creating virtual environment...
-    python -m venv venv
-    if exist "venv\Scripts\activate.bat" (
-        echo Virtual environment created successfully.
-    ) else (
-        echo Failed to create virtual environment.
-        pause
-        exit /b
-    )
+:: Create virtual environment inside backend folder
+if not exist backend\venv (
+    python -m venv backend\venv
+    echo Virtual environment created in backend\venv.
 ) else (
     echo Virtual environment already exists.
 )
 
 :: Activate virtual environment
-call venv\Scripts\activate
-
-:: Upgrade pip
-python -m pip install --upgrade pip
+call backend\venv\Scripts\activate
 
 :: Install dependencies
-if exist "requirements.txt" (
+if exist backend\requirements.txt (
     echo Installing dependencies...
-    pip install -r requirements.txt
+    pip install -r backend\requirements.txt
 ) else (
     echo No requirements.txt found, skipping dependency installation.
 )
