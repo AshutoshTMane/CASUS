@@ -1,5 +1,5 @@
 # ========== Python Backend ==========
-venv/                # Ignore virtual environment
+backend/venv/                # Ignore virtual environment
 __pycache__/         # Ignore compiled Python files
 *.pyc                # Ignore Python cache files
 .env                 # Ignore environment variables
