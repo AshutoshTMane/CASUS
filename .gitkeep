@@ -1,9 +1,6 @@
 # For backend virtual environment (ignored in .gitignore but should exist)
 mkdir -p backend/venv && touch backend/venv/.gitkeep
 
-# For Flutter app directory (ignored in .gitignore but should exist)
-mkdir -p flutter_app && touch flutter_app/.gitkeep
-
 # For Flutter lib directory (ignored in .gitignore but should exist)
 mkdir -p flutter_app/lib && touch flutter_app/lib/.gitkeep
 
