@@ -1,0 +1,11 @@
+# For backend virtual environment (ignored in .gitignore but should exist)
+mkdir -p backend/venv && touch backend/venv/.gitkeep
+
+# For Flutter build directory (ignored in .gitignore but should exist)
+mkdir -p flutter_app/build && touch flutter_app/build/.gitkeep
+
+# For database folder (if applicable)
+mkdir -p backend/database && touch backend/database/.gitkeep
+
+# For logs (if you want logs folder structure)
+mkdir -p backend/logs && touch backend/logs/.gitkeep

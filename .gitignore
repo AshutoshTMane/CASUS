@@ -1,0 +1,19 @@
+# ========== Python Backend ==========
+venv/                # Ignore virtual environment
+__pycache__/         # Ignore compiled Python files
+*.pyc                # Ignore Python cache files
+.env                 # Ignore environment variables
+
+# ========== Flutter Frontend ==========
+flutter_app/build/   # Ignore Flutter build files
+flutter_app/.dart_tool/
+flutter_app/.packages
+flutter_app/pubspec.lock
+flutter_app/.flutter-plugins
+flutter_app/.flutter-plugins-dependencies
+
+# ========== IDE and System Files ==========
+.vscode/             # VS Code settings
+.idea/               # JetBrains IDE settings
+.DS_Store            # macOS system file
+Thumbs.db            # Windows system file
