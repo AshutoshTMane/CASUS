@@ -1,5 +1,17 @@
 from pydantic import BaseModel
 
+"""
+This module defines Pydantic schemas for user-related data in a FastAPI application.  
+These schemas enforce data validation and structure for user operations, including  
+registration, authentication, and responses.  
+
+Schemas included:  
+- UserBase: Defines common fields for user data.  
+- UserCreate: Used for user registration, excluding the user ID.  
+- UserResponse: Returns user data without sensitive information like passwords.  
+- LoginRequest: Defines the expected format for login credentials.  
+"""
+
 # Base schema for user-related data, containing common fields
 class UserBase(BaseModel):
     id: int
