@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782708697467",
+    "project_id": "casus-b1481",
+    "storage_bucket": "casus-b1481.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782708697467:android:90d850b9006376062535de",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOILJ6xuKL4diZvQfCZ6pvEdr2uuiCXE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
