@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'profile_page.dart';
 import 'settings_page.dart';
 import 'chat_page.dart';
+import 'services/auth_service.dart';
+import 'screens/login_screen.dart';
+import 'screens/signup_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -14,10 +24,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CASUS',
-      theme: ThemeData.dark(),
-      home: const HomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
+      ],
+      child: MaterialApp(
+        title: 'CASUS',
+        theme: ThemeData.dark(),
+        initialRoute: '/login',
+        routes: {
+          '/': (context) => const HomePage(),
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/profile': (context) => const ProfilePage(),
+          '/settings': (context) => const SettingsPage(),
+          '/chat': (context) => const ChatPage(),
+        },
+      ),
     );
   }
 }
@@ -104,11 +127,6 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     
-    // For emulator testing, you might need to use a fixed position if location mocking isn't working
-    // Comment this out when testing on a real device
-    // locationData.latitude = 37.422; 
-    // locationData.longitude = -122.084;
-    
     setState(() {
       _currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
       _locationObtained = true;
@@ -139,10 +157,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('CASUS'),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await authService.signOut();
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.black,
       body: Column(
@@ -150,10 +179,10 @@ class _HomePageState extends State<HomePage> {
           Container(
             padding: const EdgeInsets.all(16),
             width: double.infinity,
-            child: const Text(
-              'Welcome to CASUS!',
+            child: Text(
+              'Welcome to CASUS, ${authService.currentUser?.displayName ?? 'User'}!',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
           Expanded(
@@ -229,13 +258,13 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           switch (index) {
             case 1:
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+              Navigator.pushNamed(context, '/profile');
               break;
             case 2:
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+              Navigator.pushNamed(context, '/settings');
               break;
             case 3:
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatPage()));
+              Navigator.pushNamed(context, '/chat');
               break;
           }
         },

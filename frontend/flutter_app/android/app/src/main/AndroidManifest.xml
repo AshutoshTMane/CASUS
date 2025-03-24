@@ -11,7 +11,7 @@
         
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="Replace with Api key" /> <!--remove and replace with yourapikeyhere when pushing-->
+            android:value="AIzaSyCBQkIxJZzBn9oYJrf2gvH1dBJ6b8I_kSc" /> <!--remove and replace with yourapikeyhere when pushing-->
             
         <activity
             android:name=".MainActivity"
