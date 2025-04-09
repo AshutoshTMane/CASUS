@@ -10,6 +10,7 @@ import 'chat_page.dart';
 import 'services/auth_service.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/landmark_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => const ProfilePage(),
           '/settings': (context) => const SettingsPage(),
           '/chat': (context) => const ChatPage(),
+          '/landmark': (context) => const LandmarkScreen(),
         },
       ),
     );
@@ -265,6 +267,9 @@ class _HomePageState extends State<HomePage> {
               break;
             case 3:
               Navigator.pushNamed(context, '/chat');
+              break;
+            case 4:
+              Navigator.pushNamed(context, '/landmark');
               break;
           }
         },
