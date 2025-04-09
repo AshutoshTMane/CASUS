@@ -256,6 +256,11 @@ class _HomePageState extends State<HomePage> {
             activeIcon: Icon(Icons.chat, size: 30, color: Colors.lightGreenAccent),
             label: 'Chat',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera_alt, size: 28),
+            activeIcon: Icon(Icons.camera_alt, size: 30, color: Colors.lightGreenAccent),
+            label: 'Landmark ID',
+          ),
         ],
         onTap: (index) {
           switch (index) {
