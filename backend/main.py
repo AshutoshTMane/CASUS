@@ -1,10 +1,16 @@
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, SessionLocal, Base, get_db
 from schemas import LoginRequest
 from models import User
 import logging
+from google.cloud import vision
+from google.cloud.vision_v1 import types
+import io
+import os
+import requests
+from dotenv import load_dotenv
 
 # Create FastAPI app instance
 app = FastAPI()
@@ -17,6 +23,14 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allow all headers
 )
+
+load_dotenv()
+
+credential_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credential_path
+vision_client = vision.ImageAnnotatorClient()
+
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -98,3 +112,78 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         # Log unexpected errors and respond with a 500 HTTP error
         logger.error("Unexpected error during login for email %s: %s", data.email, str(e))
         raise HTTPException(status_code=500, detail="Internal server error")
+    
+
+def get_wikipedia_summary(title):
+    try:
+        url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
+        res = requests.get(url)
+        if res.status_code == 200:
+            return res.json().get("extract", "No summary found.")
+        return "No summary available."
+    except:
+        return "Description unavailable."
+
+#Uses Google Maps Geocoding API to provide address given coordinates
+def get_address_from_latlng(lat, lng):
+    try:
+        geocode_url = (
+            f"https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={GOOGLE_MAPS_API_KEY}"
+        )
+        response = requests.get(geocode_url).json()
+        if response["status"] == "OK" and response["results"]:
+            return response["results"][0]["formatted_address"]
+        return "Address not found"
+    except Exception as e:
+        return f"Error retrieving address: {str(e)}"
+
+
+#Provides brief summary of landmark
+def get_wikipedia_summary(title):
+    try:
+        url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{title}"
+        res = requests.get(url)
+        if res.status_code == 200:
+            return res.json().get("extract", "No summary found.")
+        return "No summary available."
+    except:
+        return "Description unavailable."
+
+
+# Main endpoint
+@app.post("/identify_landmark")
+async def identify_landmark(file: UploadFile = File(...)):
+    try:
+        file_contents = await file.read()
+        image = vision.Image(content=file_contents)
+        response = vision_client.landmark_detection(image=image)
+        landmarks = response.landmark_annotations
+
+        if response.error.message:
+            raise HTTPException(status_code=500, detail=f"Vision API error: {response.error.message}")
+
+        result_list = []
+
+        for landmark in landmarks:
+            name = landmark.description
+            lat_lng = landmark.locations[0].lat_lng
+            latitude = lat_lng.latitude
+            longitude = lat_lng.longitude
+            address = get_address_from_latlng(latitude, longitude)
+            summary = get_wikipedia_summary(name)
+
+            result_list.append({
+                "name": name,
+                "description": summary,
+                "location": {
+                    "address": address
+                }
+            })
+
+        if not result_list:
+            return {"message": "No recognizable landmarks found."}
+
+        return {"landmarks": result_list}
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")

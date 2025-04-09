@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import for shared preferences to check login status
 import 'login_page.dart'; // Import LoginPage for login redirection
 import 'profile_page.dart'; // Import ProfilePage for profile page
+import 'landmark_screen.dart'
 
 // HomePage widget that is Stateful to handle dynamic UI updates based on user actions (e.g., navigation)
 class HomePage extends StatefulWidget {
@@ -30,6 +31,7 @@ class _MyHomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 24))), // Search page content
     SizedBox
         .shrink(), // Placeholder for the Profile tab (it's handled dynamically)
+    LandmarkScreen(),    
   ];
 
   // Function to check if the user is logged in by accessing SharedPreferences
@@ -60,13 +62,13 @@ class _MyHomePageState extends State<HomePage> {
         // If user is logged in, navigate to ProfilePage
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
+          MaterialPageRoute(builder: (context) => const ProfilePage()),
         );
       } else {
         // If user is not logged in, navigate to LoginPage
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
     }
@@ -88,6 +90,8 @@ class _MyHomePageState extends State<HomePage> {
               icon: Icon(Icons.search), label: 'Search'), // Search tab item
           BottomNavigationBarItem(
               icon: Icon(Icons.person), label: 'Profile'), // Profile tab item
+          BottomNavigationBarItem(
+              icon: Icon(Icons.camera_alt), label: 'Landmark ID'), // Profile tab item
         ],
         currentIndex: _selectedIndex, // Set the currently selected tab
         selectedItemColor: Colors.lightGreen, // Color for selected tab
