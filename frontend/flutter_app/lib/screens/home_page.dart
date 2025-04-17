@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Import for shared preferences to check login status
 import 'login_page.dart'; // Import LoginPage for login redirection
 import 'profile_page.dart'; // Import ProfilePage for profile page
+import 'landmark_screen.dart';
 
 // HomePage widget that is Stateful to handle dynamic UI updates based on user actions (e.g., navigation)
 class HomePage extends StatefulWidget {
